@@ -515,16 +515,37 @@
   </script>
 
   <script>
-    const stickyTop = document.querySelector('.sticky-top');
-    const offcanvas = document.querySelector('.offcanvas');
+    document.addEventListener('DOMContentLoaded', function () {
+  const hamburger = document.querySelector('.navbar-toggler');
+  const offcanvas = document.querySelector('.offcanvas');
+  const stickyTop = document.querySelector('.sticky-top');
 
-    offcanvas.addEventListener('show.bs.offcanvas', function () {
+  hamburger.addEventListener('click', function () {
+    offcanvas.classList.add('show');
+    if (stickyTop) {
       stickyTop.style.overflow = 'visible';
-    });
+    }
+  });
 
-    offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+  document.addEventListener('click', function (event) {
+    const isClickInsideOffcanvas = offcanvas.contains(event.target);
+    const isClickOnHamburger = hamburger.contains(event.target);
+
+    if (!isClickInsideOffcanvas && !isClickOnHamburger) {
+      offcanvas.classList.remove('show');
+      if (stickyTop) {
+        stickyTop.style.overflow = 'hidden';
+      }
+    }
+  });
+
+  offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+    offcanvas.classList.remove('show');
+    if (stickyTop) {
       stickyTop.style.overflow = 'hidden';
-    });
+    }
+  });
+});
   </script>
 
   <script>
